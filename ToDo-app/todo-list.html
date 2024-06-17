@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            background: linear-gradient(125deg, #153677,#4e085f);
+            padding: 0;
+            margin:0;
+            font-family:'Courier New', Courier, monospace;
+        }
+        .box{
+            display: flex;
+            justify-content: center;
+            margin-top: 50px;
+        }
+        .container{
+            
+            background-color: rgb(255, 255, 255);
+            height:500px;
+            width:500px;
+            border-radius:10px;
+            padding: 20px;
+        }
+        h2{
+            color: rgb(233, 82, 102);
+            text-align: center;
+            font-size: 28px;
+            text-transform:capitalize;
+        }
+        .create-list{
+            display: flex;
+            border-radius: 15px;
+            
+        }
+        .create-list input{
+            background-color: #ececec;
+            padding: 15px;
+            flex: 1;
+            border-radius:15px;
+            border-color:transparent;
+            outline: none;
+            margin-right: 5px;
+        }
+        #btn{
+            background-color: rgb(233, 82, 102);
+            color: black;
+            font-weight:600;
+            border-radius: 16px;
+            padding: 16px 20px;
+            border-color:transparent;
+        }
+        #btn:hover
+        .listitems{
+            color: #000000;
+            font-size: 18px;
+        }
+        .listitems li{
+            list-style: none;
+            line-height: 3;
+            position:relative;
+         
+     
+        }
+        .listitems li::before{
+            content: "🔲";
+            font-size: 16px;
+            padding-right: 12px;
+        }
+        .listitems li.checked::before{
+            content: "✅";
+            font-size: 16px;
+            padding-right: 12px; 
+        }
+        .listitems li.checked{
+            text-decoration: line-through;
+            color: #999797;
+
+        }
+        .del-btn{
+            background-color: black;
+            padding: 2px 8px;
+            font-size: 10px;
+            border-radius:5px;
+            position: absolute;
+            right:10px;
+           
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <div class="container">
+            <h2>To-Do app</h2>
+            <div class="create-list">
+                <input type="list" id="listcreate">
+                <button id="btn">Add</button>
+            </div>   
+    
+            <ul class="listitems">
+                
+            </ul>
+        </div>
+    </div> 
+    <script>
+        let allList = document.querySelector(".listitems");
+        let createList = document.getElementById("listcreate");
+        let Btn = document.getElementById("btn");
+
+        Btn.addEventListener("click", function(){
+            if(createList.value === ""){
+                alert("Enter today task");
+            }else{
+                let list = document.createElement("li");
+                list.innerText=createList.value;
+                
+                let spanbtn = document.createElement("span");
+                spanbtn.className = 'del-btn';
+                spanbtn.innerText = "❌";
+                list.appendChild(spanbtn);
+                allList.appendChild(list);
+            }
+            createList.value = "";
+            savePresentData();
+        });
+        allList.addEventListener("click", function(e){
+            if(e.target.tagName === "LI"){
+                e.target.classList.toggle("checked");
+                savePresentData();
+            }
+            else if(e.target.tagName === "SPAN"){
+                e.target.parentElement.remove();
+                savePresentData();
+            }
+        });
+        function savePresentData(){
+            localStorage.setItem("data", allList.innerHTML);
+        }
+        function showSavedData(){
+            allList.innerHTML = localStorage.getItem("data");
+        }
+        showSavedData();
+          
+    </script>
+</body>
+</html>
